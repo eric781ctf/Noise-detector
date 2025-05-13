@@ -2,21 +2,91 @@
 <html>
 <head>
   <title>Noise Detector</title>
+  <style>
+    body {
+      background-image: url("/static/background.jpg");
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    .panel {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .waveform-container {
+      overflow-x: auto;
+      white-space: nowrap;
+      background-color: white;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .waveform-container img {
+      display: inline-block;
+      max-height: 200px; /* 調整圖像高度 */
+    }
+
+    #status {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h1>Noise Detector</h1>
-  <form method="post">
-    <label>Recording Duration (seconds):</label>
-    <input type="number" name="duration" value="5">
-    <button type="submit">Start Recording</button>
-  </form>
-  {% if result %}
-    <h2>Analysis Result</h2>
-    <ul>
-      <li>RMS: {{ result.rms }}</li>
-      <li>Peak: {{ result.peak }}</li>
-      <li>Silence Ratio: {{ result.silence_ratio }}</li>
-    </ul>
-  {% endif %}
+  <div class="panel">
+    <h1>Noise Detector</h1>
+    <form method="post">
+      <label>Recording Duration (seconds):</label>
+      <input type="number" name="duration" value="5" min="3" required>
+      <button type="submit" onclick="showRecording()">開始錄音</button>
+    </form>
+    <p id="status"></p>
+
+    {% if result %}
+      <h2>分析結果</h2>
+      <ul>
+        <li title="RMS (Root Mean Square)：代表整段音訊的平均能量大小，數值越大表示音量越高">
+          RMS: {{ result.rms | round(4) }}
+        </li>
+        <li title="Peak：錄音中最大音量，代表瞬間最響亮的聲音強度">
+          Peak: {{ result.peak | round(4) }}
+        </li>
+        <li title="Silence Ratio：音訊中被視為靜音的比例，1.0 表示整段幾乎沒聲音">
+          Silence Ratio: {{ result.silence_ratio | round(4) }}
+        </li>
+      </ul>
+
+      <h2>🔊 錄音重播</h2>
+      <audio controls>
+        <source src="{{ url_for('static', filename='web_recording.wav') }}" type="audio/wav">
+        您的瀏覽器不支援音訊播放。
+      </audio>
+    {% endif %}
+
+    {% if waveform %}
+      <h2>Waveform</h2>
+      <div class="waveform-container">
+        <img src="data:image/png;base64,{{ waveform }}" alt="Waveform">
+      </div>
+    {% endif %}
+  </div>
+
+  <script>
+    function showRecording() {
+      const status = document.getElementById("status");
+      status.innerText = "🎙️ 錄音中...";
+      status.style.color = "lime";
+    }
+  </script>
 </body>
 </html>

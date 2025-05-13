@@ -13,7 +13,8 @@ dependencies = [
     "soundfile >= 0.12",
     "numpy >= 1.24",
     "scipy >= 1.10",
-    "invoke >= 2.0"
+    "invoke >= 2.0",
+    "matplotlib >= 3.7"
 ]
 requires-python = ">=3.9"
 
