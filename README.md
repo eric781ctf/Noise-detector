@@ -39,7 +39,7 @@ Example:
 python -m noise_detector.cli --duration 10 --output my_recording.wav
 ```
 
-[cli-tool](/README_IMG/run-cli.png)
+![cli-tool](/README_IMG/run-cli.png)
 
 ### Web Interface
 
@@ -50,8 +50,8 @@ invoke run-web
 
 Then, open your browser and navigate to `http://127.0.0.1:5000`. You can record audio, analyze it, and view the results, including a waveform visualization.
 
-[homepage](/README_IMG/run-web-home.png)
-[result](/README_IMG/run-web-result.png)
+![homepage](/README_IMG/run-web-home.png)
+![result](/README_IMG/run-web-result.png)
 
 ## Development
 
