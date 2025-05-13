@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Noise Detector</title>
+</head>
+<body>
+  <h1>Noise Detector</h1>
+  <form method="post">
+    <label>Recording Duration (seconds):</label>
+    <input type="number" name="duration" value="5">
+    <button type="submit">Start Recording</button>
+  </form>
+  {% if result %}
+    <h2>Analysis Result</h2>
+    <ul>
+      <li>RMS: {{ result.rms }}</li>
+      <li>Peak: {{ result.peak }}</li>
+      <li>Silence Ratio: {{ result.silence_ratio }}</li>
+    </ul>
+  {% endif %}
+</body>
+</html>

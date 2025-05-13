@@ -1,0 +1,25 @@
+[project]
+name = "noise-detector"
+version = "0.1.0"
+description = "CLI + Flask tool for analyzing background noise quality."
+authors = [
+    { name = "Eric WY Chang", email = "eric773dfl@gmail.com" }
+]
+dependencies = [
+    "typer[all] >= 0.9",
+    "rich >= 13.0",
+    "flask >= 2.3",
+    "sounddevice >= 0.4",
+    "soundfile >= 0.12",
+    "numpy >= 1.24",
+    "scipy >= 1.10",
+    "invoke >= 2.0"
+]
+requires-python = ">=3.9"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["noise_detector"]
