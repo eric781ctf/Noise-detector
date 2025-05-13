@@ -20,26 +20,36 @@ app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 def generate_waveform_image(filename):
     data, samplerate = sf.read(filename)
 
-    # 如果是立體聲，取第一軌
+    # 單聲道處理
     if len(data.shape) > 1:
         data = data[:, 0]
 
     time_axis = np.linspace(0, len(data) / samplerate, num=len(data))
 
-    fig, ax = plt.subplots(figsize=(8, 2.5))
-    ax.plot(time_axis, data, linewidth=0.8, color='dodgerblue')
-    ax.set_title("Waveform")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Amplitude")
-    ax.grid(True, linestyle='--', alpha=0.5)
-    
-    # 移除多餘邊距
+    # 設定圖表與繪圖區背景為深黑灰
+    fig, ax = plt.subplots(figsize=(10, 3), facecolor='#0d0d0d')
+    ax.set_facecolor('#0d0d0d')
+
+    ax.plot(time_axis, data, linewidth=1.0, color='#00BFFF')  # 波形為亮藍色
+    ax.set_title("Waveform", fontsize=14, color='white', pad=10)
+    ax.set_xlabel("Time (s)", fontsize=12, color='white')
+    ax.set_ylabel("Amplitude", fontsize=12, color='white')
+    ax.grid(True, linestyle='--', alpha=0.3)
+
+    # 軸樣式設定
+    ax.tick_params(colors='white', labelsize=10)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_color('white')
+    ax.spines['bottom'].set_color('white')
+
     plt.tight_layout()
 
+    # 輸出 PNG 並保留背景色
     buf = io.BytesIO()
-    plt.savefig(buf, format="png", bbox_inches='tight')  # tight 會再幫你裁切空白
+    plt.savefig(buf, format="png", bbox_inches='tight', facecolor=fig.get_facecolor())
     buf.seek(0)
-    plt.close(fig)  # 關閉圖表以節省資源
+    plt.close(fig)
     return base64.b64encode(buf.getvalue()).decode("utf-8")
 
 @app.route("/", methods=["GET", "POST"])
